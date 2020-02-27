@@ -1,19 +1,54 @@
 # Godot Community Map
-This is a list of Godot regional communities, it is used as source data to generate the map in the [community page](https://godotengine.org/community). 
 
-## Submitting your community
+This is a list of [Godot Engine](https://godotengine.org) regional
+communities. It is used as source data to generate a world map in the
+[community page](https://godotengine.org/community).
 
-To add your community, create a pull request with a locations/region-name.cfg file. The file format is as follows:
+## Submitting your community details
+
+To add your community, create a pull request adding a `.cfg` file in
+the `locations` folder using the following naming convention:
 ```
-Name: <The name of the community>
-Country: <Country code in alpha-2 https://www.iban.com/country-codes. Multiple ones comma separated allowed>
-[Coordinates: <Optional for cities if single country specified above, the coordinates on the map as latitude, longitude, like "23.5505° S, 46.6333° W" >]
-Link: <Name>,<URL>
-[Link: <Optional extra Link Name>,<Optional extra link Link URL>]
+<ISO country code>-<region name in English>.cfg
 ```
 
-If your city or country exists, you can add PR extra links using the format above. Please check existing region name files to use as an example. If you want to obtain the coordinates for a place, try using Google Maps,OpenStreetMap or just search "Coordinates for <city>".
-  
-If your community spans several countries, feel free to add more country codes in the "Country" field as comma separated, but then the "Coordinate" field will be ignored.
+For example:
+```
+BR-sao-paulo.cfg
+ES-catalonia.cfg
+FR-lyon.cfg
+```
 
+If your community is country-wide, omit the region name, e.g.:
+```
+IT.cfg
+RU.cfg
+```
 
+The country code should be a two-letter
+[ISO 3166-1 alpha 2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements).
+
+The file format is as follows:
+```
+Region: Name of the region
+Country: Country code. Multiple ones can be specified, separated by commas.
+[Coordinates: Latitude and longitude on the map, e.g. "23.5505° S, 46.6333° W". Can be left out for countries or wider region.]
+Link: <Name of the community>,<URL>
+[Link: <Optional extra link name>,<Optional extra link URL>]
+```
+
+For example:
+```
+Region: São Paulo
+Country: BR
+Coordinates: 23.5505° S, 46.6333° W
+Link: Godot SP Meetup,https://www.meetup.com/GodotSP/
+```
+
+If your a file already exists for your region, add extra links using the
+above format. Please check existing region name files to use as an example.
+If you want to obtain the coordinates for a place, use OpenStreetMap, Google
+Maps or just search "Coordinates for <city>".
+
+If your community spans several countries, feel free to add more country
+codes in the "Country" field as comma separated.
