@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Godot Community Map MVP</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+</head>
+<body>
+<div id="map" style="width: 800px; height: 600px;"></div>
+<ul id="locations"></ul>
+<script>
+	var map = null;
+
+	var locations = [
+		{
+			name: 'São Paulo',
+			country: 'BR',
+			coordinates: [-23.5505, -46.6333],
+			links: [
+				{
+					name: 'MeetUp',
+					href: 'https://www.meetup.com/GodotSP/'
+				}
+			]
+		},
+		{
+			name: 'Godot Russia',
+			country: 'BR',
+			coordinates: [55.7702, 37.5817],
+			links: [
+				{
+					name: 'VKontakte',
+					href: 'https://vk.com/godot_engine'
+				},
+				{
+					name: 'Telegram',
+					href: 'https://t.me/godot_engine'
+				}
+			]
+		},
+		{
+			name: 'Godot Francophone',
+			country: 'BR',
+			links: [
+				{
+					name: 'Homepage',
+					href: 'https://www.godot-francophone.org/'
+				},
+				{
+					name: 'Discord',
+					href: 'https://discordapp.com/invite/NQVd34V'
+				},
+				{
+					name: 'GitHub',
+					href: 'https://github.com/Godot-Engine-Francophone'
+				}
+			]
+		}
+	];
+
+	function createMap() {
+		map = L.map('map', { minZoom: 1.5, maxZoom: 25 }).fitWorld();
+
+		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			id: 'mapbox/streets-v11',
+			tileSize: 512,
+			zoomOffset: -1
+		}).addTo(map);
+	}
+
+	function popupTemplate(location) {
+		let template = `<h3>${location.name}</h3>`
+
+		if (location.links.length > 0 ) {
+			template += '<ul>'
+
+			for (var i = 0; i < location.links.length; i++) {
+				const link = location.links[i];
+				template += `<li><a target="_blank" href="${link.href}">${link.name}</a>`;
+			}
+
+			template += '</ul>'
+		}
+
+		return template;
+	}
+
+	function drawLocations() {
+		for (var i = 0; i < locations.length; i++) {
+			const location = locations[i];
+
+			if (location.coordinates != null) {
+				L.marker(location.coordinates).addTo(map).bindPopup(popupTemplate(location));
+			}
+		}
+	}
+
+	function listTemplate(location) {
+		var location_li = document.createElement('li');
+		var name = document.createElement('h3');
+
+		name.innerHTML = location.name;
+		location_li.appendChild(name);
+
+		if (location.links.length > 0 ) {
+			var ul = document.createElement('ul');
+			location_li.appendChild(ul);
+
+			for (var i = 0; i < location.links.length; i++) {
+				const link = location.links[i];
+
+				var link_li = document.createElement('li');
+				ul.appendChild(link_li);
+
+				var a = document.createElement('a');
+				a.setAttribute('target', '_blank');
+				a.setAttribute('href', link.href);
+				a.innerHTML = link.name;
+
+				link_li.appendChild(a);
+			}
+		}
+
+		return location_li;
+	}
+
+	function listLocations() {
+		var list = document.getElementById('locations');
+
+		for (var i = 0; i < locations.length; i++) {
+			const location = locations[i];
+			list.appendChild(listTemplate(location));
+		}
+	}
+
+	(function () {
+		createMap();
+		drawLocations();
+		listLocations();
+	})();
+</script>
+
+</body>
+</html>
