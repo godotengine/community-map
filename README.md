@@ -1,39 +1,83 @@
 # Godot Community Map
-This is a list of Godot regional communities, it is used as source data to generate the map in the [community page](https://godotengine.org/community). 
+This is a list of Godot regional communities, it will be used as source data to generate the *upcoming* map for the [community page](https://godotengine.org/community).
 
 ## Submitting your community
 
-To add your community, create a pull request with a list/<community-name>.cfg text file. 
-  
-In this case <community_name> is the name of your community, translated to english and using lowercase and dashes. As an example:
-  
-* godot-engine-in-spanish.cfg
-* rio-de-janeiro.cfg
-* germany.cfg
- 
- 
+To add your community, create a pull request with a `list/community-name.json` file.
 
-The file format is as follows:
+### File name convention
+
+Name the file with the lowercase English name of the community, spaces and other characters replaced with dashes and a `.json` file extension.
+
+Example:
+
+* sao-paulo.json
+* rio-de-janeiro.json
+* suomi.json
+
+### File format
+
 ```
-Region: Name of the region
-Country: Country code. Multiple ones can be specified, separated by commas.
-[Coordinates: Latitude and longitude on the map, e.g. "23.5505° S, 46.6333° W". Can be left out for countries or wider region.]
-Link: <Name of the community>,<URL>
-[Link: <Optional extra link name>,<Optional extra link URL>]
+{
+  "name": "<community name>",
+  "languages": [
+    "<ISO 3166-1 alpha 2 language code>",
+    ...
+  ],
+  "location": {
+    "city": "<city name>",
+    "country": "<ISO 3166-1 alpha 2 country code>",
+    "coordinates": {
+      "latitude": <latitude>,
+      "longitude": <longitude>
+    }
+  }
+  "links": [
+    {
+      "name": "<text>",
+      "link": "<link>"
+    },
+    ...
+  ]
+}
 ```
 
-For example:
+Notes:
+* `name`: required, full name with case (case is missing in the file name).
+* `languages`: required, one or many [ISO 3166-1 alpha 2](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language codes.
+* `location`: optional, all properties are also optionl if they don't apply to the community.
+* `location.country`: optional, one [ISO 3166-1 alpha 2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) country code.
+* `location.coordinates`: optional, but if given both latitude and longitud must be provided.
+* `links`: required, one or many.
+
+Example:
 ```
-Region: São Paulo
-Country: BR
-Coordinates: 23.5505° S, 46.6333° W
-Link: Godot SP Meetup,https://www.meetup.com/GodotSP/
+{
+  "name": "Godot São Paulo Meetup"
+  "languages": [
+    "SP",
+    "EN"
+  ],
+  "location": {
+    "city": "São Paulo",
+    "country": "BR",
+    "coordinates": {
+      "latitude": -23.5505,
+      "longitude": -46.6333
+    }
+  }
+  "links": [
+    {
+      "name": "Meetup",
+      "link": "https://www.meetup.com/GodotSP/"
+    }
+  ]
+}
 ```
 
-Some tips:
-* If you want to obtain the coordinates for a place, use OpenStreetMap, Google Maps or just search "Coordinates for <city>".
-* If your community spans several countries, feel free to add more country codes in the "Country" field as comma separated.
-* For language based communities (non-region based) other than English, just put the list of countries, comma separate, where this language is spoken (For Spanish this may be a a lot, but please add all of them).
-* The country code should be a two-letter [ISO 3166-1 alpha 2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements).
+### Tips
 
-If your community is just a simple country or city based community and a similar name exists (like godot-germany.cfg ), and you are only wanting to add an extra social network or link where members of this same community interact, simply submit a pull request to modify the existing file.
+* To get coordinates use OpenStreetMap, Google Maps or search for  "latitude longitude for ...".
+* Pick the most important links for your community, less is more.
+
+If your community is country or city based and a similar name exists and you only want to add an extra links, submit a pull request adding the links to the existing file.
