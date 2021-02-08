@@ -1,17 +1,26 @@
 # Godot Community Map
-This is a list of Godot regional communities, it is used as source data to generate the map in the [community page](https://godotengine.org/community). 
+
+___
+
+***NOTICE:** This repository is no longer used to add user groups to the [Community map](https://godotengine.org/community/user-groups).
+Instead, open a pull request on the [godot-website repository](https://github.com/godotengine/godot-website)
+by modifying [`user-groups.htm`](https://github.com/godotengine/godot-website/blob/master/themes/godotengine/pages/user-groups.htm).*
+
+___
+
+This is a list of Godot regional communities, it is used as source data to generate the map in the [community page](https://godotengine.org/community).
 
 ## Submitting your community
 
-To add your community, create a pull request with a list/<community-name>.cfg text file. 
-  
+To add your community, create a pull request with a list/<community-name>.cfg text file.
+
 In this case <community_name> is the name of your community, translated to english and using lowercase and dashes. As an example:
-  
+
 * godot-engine-in-spanish.cfg
 * rio-de-janeiro.cfg
 * germany.cfg
- 
- 
+
+
 
 The file format is as follows:
 ```
